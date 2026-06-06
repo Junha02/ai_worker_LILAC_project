@@ -1,0 +1,39 @@
+{
+    "episode_id": "cup_to_bowl_0601_1438_2757082f",
+    "created_at": "06/01 14:38",
+    "created_at_safe": "0601_1438",
+    "created_at_unix": 1780292321.278729,
+    "task": "cup_to_bowl",
+    "instruction": "down",
+    "episode_type": "correction",
+    "hz": 10.0,
+    "action_space": "ee-euler-delta",
+    "joint_names": [
+        "arm_r_joint1",
+        "arm_r_joint2",
+        "arm_r_joint3",
+        "arm_r_joint4",
+        "arm_r_joint5",
+        "arm_r_joint6",
+        "arm_r_joint7"
+    ],
+    "hand_joint_names": [
+        "finger_r_joint2",
+        "finger_r_joint3",
+        "finger_r_joint4",
+        "finger_r_joint6",
+        "finger_r_joint7",
+        "finger_r_joint8",
+        "finger_r_joint10",
+        "finger_r_joint11",
+        "finger_r_joint12",
+        "finger_r_joint14",
+        "finger_r_joint15",
+        "finger_r_joint16",
+        "finger_r_joint18",
+        "finger_r_joint19",
+        "finger_r_joint20"
+    ],
+    "n_frames": 56,
+    "npz": "../data/cup_to_bowl/correction/cup_to_bowl_0601_1438_2757082f.npz"
+}

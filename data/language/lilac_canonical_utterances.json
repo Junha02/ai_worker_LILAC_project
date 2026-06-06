@@ -1,0 +1,80 @@
+{
+    "utterances": [
+        {
+            "id": "pick_up_cup_pour_into_bowl",
+            "text": "Pick up the cup and pour water into the bowl.",
+            "kind": "instruction",
+            "alpha": 1.0,
+            "aliases": [
+                "Pick up the cup, move it to the left bowl, and pour water into the bowl.",
+                "move the cup to the left bowl and pour",
+                "pour water from the cup into the bowl",
+                "pick up cup and pour into bowl",
+                "grab the cup and pour water into the bowl",
+                "cup to bowl"
+            ]
+        },
+        {
+            "id": "pick_up_remote_put_in_box",
+            "text": "pick up remote controller put in box",
+            "kind": "instruction",
+            "alpha": 1.0,
+            "aliases": [
+                "pick up the remote controller and place it in the box",
+                "pick up the remote controller and put it in the box",
+                "put the remote controller in the box",
+                "remote controller to box",
+                "pick up remote and put it in box"
+            ]
+        },
+        {
+            "id": "right",
+            "text": "right",
+            "kind": "correction",
+            "alpha": 0.0
+        },
+        {
+            "id": "pour_water",
+            "text": "pour water",
+            "kind": "correction",
+            "alpha": 0.0,
+            "aliases": [
+                "pour",
+                "tilt the cup",
+                "start pouring"
+            ]
+        },
+        {
+            "id": "left",
+            "text": "left",
+            "kind": "correction",
+            "alpha": 0.0
+        },
+        {
+            "id": "down",
+            "text": "down",
+            "kind": "correction",
+            "alpha": 0.0
+        },
+        {
+            "id": "up",
+            "text": "up",
+            "kind": "correction",
+            "alpha": 0.0
+        },
+        {
+            "id": "front",
+            "text": "front",
+            "kind": "correction",
+            "alpha": 0.0,
+            "aliases": ["forward"]
+        },
+        {
+            "id": "back",
+            "text": "back",
+            "kind": "correction",
+            "alpha": 0.0,
+            "aliases": ["backward"]
+        }
+    ]
+}

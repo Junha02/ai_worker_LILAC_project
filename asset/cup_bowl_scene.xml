@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<mujoco model="lilac_cup_bowl_scene">
+  <asset>
+    <material name="mat_lilac_station" rgba="0.42 0.32 0.22 1"/>
+    <material name="mat_lilac_station_edge" rgba="0.25 0.20 0.16 1"/>
+    <material name="mat_lilac_cup_holder" rgba="0.72 0.72 0.68 1"/>
+    <material name="mat_lilac_cup" rgba="0.95 0.03 0.02 1"/>
+    <material name="mat_lilac_bowl" rgba="0.92 0.92 0.86 1"/>
+    <material name="mat_lilac_water" rgba="0.05 0.35 0.95 0.55"/>
+    <material name="mat_lilac_remote_body" rgba="0.06 0.06 0.065 1"/>
+    <material name="mat_lilac_remote_face" rgba="0.16 0.16 0.17 1"/>
+    <material name="mat_lilac_remote_button" rgba="0.86 0.86 0.82 1"/>
+    <material name="mat_lilac_remote_power" rgba="0.86 0.05 0.04 1"/>
+    <material name="mat_lilac_remote_support" rgba="0.46 0.46 0.42 1"/>
+    <mesh name="mesh_lilac_cup_open" file="../../asset/cup_open_cylinder.obj"/>
+    <mesh name="mesh_lilac_bowl_plate" file="../../asset/bowl_plate.obj"/>
+    <mesh name="mesh_lilac_remote_support_wedge" file="../../asset/remote_support_wedge.obj"/>
+  </asset>
+
+  <worldbody>
+    <body name="lilac_pour_station" pos="0.65 -0.05 1.13">
+      <geom name="lilac_station_bottom" type="box" pos="0.0 0.0 -0.12" size="0.24 0.672 0.018" material="mat_lilac_station" contype="1" conaffinity="1"/>
+    </body>
+
+    <!-- <body name="lilac_cup_holder" pos="0.64 0.045 1.03">
+      <geom name="lilac_cup_holder_bottom" type="box" pos="0.000 0.000 0.055" size="0.060 0.120 0.005" material="mat_lilac_cup_holder" contype="1" conaffinity="1" friction="1.2 0.01 0.001"/>
+      <geom name="lilac_cup_holder_x_neg_wall" type="box" pos="-0.060 0.000 0.060" size="0.012 0.132 0.060" material="mat_lilac_cup_holder" contype="1" conaffinity="1" friction="1.2 0.01 0.001"/>
+      <geom name="lilac_cup_holder_x_pos_wall" type="box" pos="0.060 0.000 0.060" size="0.012 0.132 0.060" material="mat_lilac_cup_holder" contype="1" conaffinity="1" friction="1.2 0.01 0.001"/>
+      <geom name="lilac_cup_holder_y_neg_wall" type="box" pos="0.000 -0.120 0.060" size="0.072 0.012 0.060" material="mat_lilac_cup_holder" contype="1" conaffinity="1" friction="1.2 0.01 0.001"/>
+      <geom name="lilac_cup_holder_y_pos_wall" type="box" pos="0.000 0.120 0.060" size="0.072 0.012 0.060" material="mat_lilac_cup_holder" contype="1" conaffinity="1" friction="1.2 0.01 0.001"/>
+    </body> -->
+
+    <body name="task_cup" pos="0.54 -0.205 1.13">
+      <freejoint name="task_cup_freejoint"/>
+      <inertial pos="0 0 0" mass="0.06" diaginertia="0.00008 0.00008 0.00005"/>
+      <geom name="task_cup_visual_geom" type="mesh" mesh="mesh_lilac_cup_open" rgba="0.95 0.03 0.02 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_cup_collision_geom" type="cylinder" pos="0 0 0" size="0.040 0.055" rgba="0 0 0 0" density="0" friction="1.2 0.01 0.001"/>
+      <geom name="task_cup_water_geom" type="cylinder" pos="0 0 0.030" size="0.027 0.006" material="mat_lilac_water" contype="0" conaffinity="0"/>
+      <site name="task_cup_site" pos="0 0 0" type="sphere" size="0.001" rgba="0 0 0 0"/>
+    </body>
+
+    <!-- <body name="lilac_remote_support_wedge" pos="0.44 -0.405 1.028">
+      <geom name="lilac_remote_support_wedge_geom" type="mesh" mesh="mesh_lilac_remote_support_wedge" rgba="0.46 0.46 0.42 1" contype="1" conaffinity="1" friction="1.2 0.01 0.001"/>
+    </body> -->
+
+    <!-- <body name="task_remote" pos="0.44 -0.405 1.100" quat="0.9238795 0 0.3826834 0">
+      <freejoint name="task_remote_freejoint"/>
+      <inertial pos="0 0 0" mass="0.08" diaginertia="0.000055 0.000205 0.000230"/>
+      <geom name="task_remote_body_geom" type="box" pos="0 0 0" size="0.085 0.026 0.010" rgba="0.04 0.04 0.045 1" contype="1" conaffinity="1" friction="1.1 0.01 0.001"/>
+      <geom name="task_remote_face_geom" type="box" pos="0 0 0.0115" size="0.074 0.019 0.0015" rgba="0.20 0.20 0.22 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_power_button" type="cylinder" pos="-0.058 0.000 0.0140" size="0.006 0.0015" rgba="0.90 0.02 0.02 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_button_00" type="cylinder" pos="-0.034 -0.009 0.0140" size="0.004 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_button_01" type="cylinder" pos="-0.034 0.000 0.0140" size="0.004 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_button_02" type="cylinder" pos="-0.034 0.009 0.0140" size="0.004 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_button_03" type="cylinder" pos="-0.016 -0.009 0.0140" size="0.004 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_button_04" type="cylinder" pos="-0.016 0.000 0.0140" size="0.004 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_button_05" type="cylinder" pos="-0.016 0.009 0.0140" size="0.004 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_button_06" type="cylinder" pos="0.012 -0.009 0.0140" size="0.004 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_button_07" type="cylinder" pos="0.012 0.000 0.0140" size="0.004 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_button_08" type="cylinder" pos="0.012 0.009 0.0140" size="0.004 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <geom name="task_remote_direction_pad" type="cylinder" pos="0.042 0.000 0.0140" size="0.010 0.0015" rgba="0.90 0.90 0.86 1" contype="0" conaffinity="0" density="0"/>
+      <site name="task_remote_site" pos="0 0 0" type="sphere" size="0.001" rgba="0 0 0 0"/>
+    </body> -->
+
+    <body name="task_bowl" pos="0.54 0.05 1.04">
+      <geom name="task_bowl_visual_geom" type="mesh" mesh="mesh_lilac_bowl_plate" material="mat_lilac_bowl" contype="0" conaffinity="0"/>
+      <geom name="task_bowl_collision_geom" type="cylinder" pos="0 0 0.008" size="0.105 0.010" rgba="0 0 0 0" contype="1" conaffinity="1"/>
+      <geom name="task_bowl_water_geom" type="cylinder" pos="0 0 0.018" size="0.060 0.004" material="mat_lilac_water" contype="0" conaffinity="0"/>
+      <site name="task_bowl_site" pos="0 0 0.045" type="sphere" size="0.001" rgba="0 0 0 0"/>
+    </body>
+  </worldbody>
+</mujoco>

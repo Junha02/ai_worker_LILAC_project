@@ -1,0 +1,20 @@
+# OS/editor noise
+.DS_Store
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Downloaded model caches
+cache/
+
+# Generated training/runtime artifacts
+runs/
+outputs/
+
+# Large ML checkpoint/model formats
+*.bin
+*.ckpt
+*.onnx
+*.pt
+*.pth
+*.safetensors
