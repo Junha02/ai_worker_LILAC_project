@@ -1,8 +1,8 @@
 # Adaptive Assistive Robot Control with LILAC
 
-Language-Informed Latent Actions with Corrections를 활용해 **2-DoF joystick input으로 6-DoF robot end-effector를 제어**하는 Human-Robot Interaction(HRI) 프로젝트입니다.
+Language-Informed Latent Actions with Corrections를 활용해, 장애인이 **2-DoF joystick input으로 6-DoF robot end-effector를 보다 쉽게 제어할 수 있도록 지원하는 assistive robot** Human-Robot Interaction(HRI) 프로젝트입니다.
 
-일반적인 joystick teleoperation은 제한된 input DoF로 인해 position과 orientation을 번갈아 조작해야 합니다. 잦은 mode switching은 사용자의 cognitive load를 높이고, 조작 정확도를 떨어뜨리며, 의도하지 않은 robot motion으로 이어질 수 있습니다. 본 프로젝트는 robot state와 language instruction/correction을 이용해 joystick input의 의미를 상황에 맞게 바꾸는 **Shared Autonomy controller**를 구현합니다.
+일반적인 joystick teleoperation은 제한된 input DoF로 인해 position과 orientation을 번갈아 조작해야 합니다. 잦은 mode switching은 사용자의 cognitive load를 높이고, 조작 정확도를 떨어뜨리며, 의도하지 않은 robot motion으로 이어질 수 있습니다. 본 프로젝트는 robot state와 language instruction/correction을 이용해 joystick input의 의미를 상황에 맞게 바꾸는 **Shared Autonomy controller**를 구현했습니다.
 
 ## Table of Contents
 
@@ -14,13 +14,13 @@ Language-Informed Latent Actions with Corrections를 활용해 **2-DoF joystick 
 - [6. Troubleshooting](#troubleshooting)
 - [7. Repository Structure](#repository-structure)
 
-![기존 assistive robot control의 한계](docs/images/motivation-control-limitations.png)
-
-![MuJoCo simulation과 joystick 조작](docs/images/simulation-demo.png)
-
 <a id="core-idea"></a>
 
 ## 1. 핵심 아이디어
+
+![기존 assistive robot control의 한계](docs/images/motivation-control-limitations.png)
+
+![MuJoCo simulation과 joystick 조작](docs/images/simulation-demo.png)
 
 사용자는 2-DoF joystick으로 latent action `z`만 입력합니다. LILAC model은 현재 state `s`와 utterance `u`를 함께 해석해, 해당 상황에서 필요한 6-DoF action `a'`를 생성합니다.
 
@@ -28,7 +28,7 @@ Language-Informed Latent Actions with Corrections를 활용해 **2-DoF joystick 
 (state s, utterance u, latent joystick input z) -> predicted 6-DoF action a'
 ```
 
-예를 들어 동일한 joystick input이라도 active utterance가 `right`이면 오른쪽 이동을, `pour water`이면 컵을 기울이는 회전 동작을 생성할 수 있습니다. 따라서 사용자는 position/orientation mode를 반복해서 변경하지 않고도 task와 correction에 맞는 동작을 수행할 수 있습니다.
+예를 들어 동일한 joystick input이라도 active utterance가 `right`이면 오른쪽 이동을, `pour water`이면 컵을 기울이는 회전 동작을 생성할 수 있습니다. 따라서 사용자는 position/orientation mode를 반복해서 변경하지 않고도 task와 correction에 맞는 동작을 수행할 수 있습니다 !
 
 ![LILAC model 개념도](docs/images/lilac-model-overview.png)
 
@@ -105,24 +105,11 @@ Gemini prompt에는 canonical `id`, `text`, `kind`, `aliases` 목록과 raw utte
 
 ## 3. System Architecture
 
-```mermaid
-flowchart LR
-    Human[Human] -->|voice| STT[Whisper-small STT]
-    Human -->|2-DoF joystick z| Joy[Joystick / Vader5]
-    STT --> Lang[Language Manager]
-    Lang -->|Exact Match or constrained Gemini selection| Stack[Instruction & Correction Stack]
-    State[Robot + Object State s] --> Policy[LILAC Policy]
-    Stack -->|u, alpha| Policy
-    Joy -->|latent z| Policy
-    Policy -->|6-DoF EE delta a'| IK[Right Arm IK]
-    IK -->|q_pos command| Sim[MuJoCo Dynamics]
-    Sim -->|q_pos state| State
-    Sim -->|robot contact only| Haptic[Joystick Haptic Feedback]
-```
+![전체 3. System Architecture](docs/images/system-architecture.png)
 
-발표 설계에서는 STT/TTS, latent-action controller, robot/simulation을 독립적인 Docker container와 ROS-style service/topic으로 분리했습니다. 현재 repository의 simulation runtime은 `InProcessROSGraph`로 동일한 message flow를 재현합니다.
+Language Manager, latent-action controller, robot/simulation을 ROS 2 Service/Topic 기반 node로 분리했습니다. 기존 simulation runtime은 `InProcessROSGraph`로 동일한 message flow를 재현하며, `ros_ws/`의 `rclpy` node는 root의 Docker 구성으로 실행할 수 있습니다 !
 
-주요 interface는 다음과 같습니다.
+주요 interface:
 
 | Interface                             | 역할                                            |
 | ------------------------------------- | ----------------------------------------------- |
@@ -134,9 +121,8 @@ flowchart LR
 | `/sh5/qpos_cmd`, `/sh5/qpos_state`    | IK command와 MuJoCo dynamics state 전달         |
 | `/sim/contact_info`, `/vader5/rumble` | filtered contact와 haptic feedback 전달         |
 
-단발성 language request에는 Service를 사용하고, 지속적으로 갱신되는 state·control·contact data에는 Topic을 사용했습니다.
-
-![전체 3. System Architecture](docs/images/system-architecture.png)
+- 단발성 language request에는 **Service**를 사용하고,
+- 지속적으로 갱신되는 state·control·contact data에는 **Topic**을 사용했습니다 !
 
 <a id="safety-design"></a>
 
@@ -144,7 +130,7 @@ flowchart LR
 
 ### Safe demonstration만 저장
 
-Data collection 중 잘못된 방향으로 움직이거나 collision 위험이 발생하면 joystick의 **A button**을 눌러 recording을 cancel하고, arm target과 task object를 initial pose로 reset합니다. 이를 통해 실패 trajectory가 dataset에 저장되지 않도록 하고, 안전하게 수행된 demonstration만 학습에 사용했습니다.
+Data collection 중 잘못된 방향으로 움직이거나 collision 위험이 발생하면 joystick의 **A button**을 눌러 recording을 cancel하고, arm target과 task object를 initial pose로 reset합니다. 이를 통해 실패 trajectory가 dataset에 저장되지 않도록 하고, 안전하게 수행된 demonstration만 학습에 사용했습니다 !
 
 Collection 단계에서 **B button**은 recording start/save toggle로 사용됩니다. Inference 단계에서는 A button이 simulation reset, B button이 가장 최근 correction을 `pop`하는 역할을 합니다.
 
@@ -226,6 +212,8 @@ Exact Match를 우선하고, novel utterance만 Gemini로 전달했습니다. Ge
 .
 ├── asset/                  # MuJoCo task object mesh와 scene asset
 ├── data/                   # trajectory, canonical language, training arrays
+├── docker/                 # ROS 2 container image와 entrypoint
+├── docker-compose.yml      # language, controller, simulation container 구성
 ├── package/
 │   ├── lilac_model.py      # Conditional Autoencoder 기반 LILAC model
 │   ├── language.py         # Exact Match, Gemini selector, language stack, SBERT
@@ -236,6 +224,7 @@ Exact Match를 우선하고, novel utterance만 Gemini로 전달했습니다. Ge
 │   ├── runtime.py          # integrated MuJoCo runtime
 │   └── sh5_right_arm.py    # SH5 right arm IK와 Vader5 control utility
 ├── scripts/                # language index, preprocessing, training, runtime CLI
+├── ros_ws/                 # ROS 2 interface, rclpy node, launch 구성
 ├── sim_notebook/           # collection, training, inference, visualization workflow
 └── tests/                  # language routing과 model interface test
 ```
