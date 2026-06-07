@@ -6,13 +6,13 @@ Language-Informed Latent Actions with Corrections를 활용해 **2-DoF joystick 
 
 ## Table of Contents
 
-- [핵심 아이디어](#core-idea)
-- [Language 처리와 Structured Command Selection](#language-processing)
-- [System Architecture](#system-architecture)
-- [Safety Design](#safety-design)
-- [Dataset](#dataset)
-- [Troubleshooting](#troubleshooting)
-- [Repository Structure](#repository-structure)
+- [1. 핵심 아이디어](#core-idea)
+- [2. Language 처리와 Structured Command Selection](#language-processing)
+- [3. System Architecture](#system-architecture)
+- [4. Safety Design](#safety-design)
+- [5.Dataset](#5.dataset)
+- [6. Troubleshooting](#troubleshooting)
+- [7. Repository Structure](#repository-structure)
 
 ![기존 assistive robot control의 한계](docs/images/motivation-control-limitations.png)
 
@@ -20,7 +20,7 @@ Language-Informed Latent Actions with Corrections를 활용해 **2-DoF joystick 
 
 <a id="core-idea"></a>
 
-## 핵심 아이디어
+## 1. 핵심 아이디어
 
 사용자는 2-DoF joystick으로 latent action `z`만 입력합니다. LILAC model은 현재 state `s`와 utterance `u`를 함께 해석해, 해당 상황에서 필요한 6-DoF action `a'`를 생성합니다.
 
@@ -70,7 +70,7 @@ a' = B(s, u, alpha) @ z
 
 <a id="language-processing"></a>
 
-## Language 처리와 Structured Command Selection
+## 2. Language 처리와 Structured Command Selection
 
 사람은 같은 의도를 서로 다르게 표현합니다. 예를 들어 위쪽 이동을 요청할 때 `"위로 올려"`, `"조금만 위로 이동해"`처럼 표현이 달라질 수 있습니다. Gemini는 이러한 다양한 표현을 해석해 robot이 수행할 수 있는 canonical command로 연결합니다.
 
@@ -103,7 +103,7 @@ Gemini prompt에는 canonical `id`, `text`, `kind`, `aliases` 목록과 raw utte
 
 <a id="system-architecture"></a>
 
-## System Architecture
+## 3. System Architecture
 
 ```mermaid
 flowchart LR
@@ -136,11 +136,11 @@ flowchart LR
 
 단발성 language request에는 Service를 사용하고, 지속적으로 갱신되는 state·control·contact data에는 Topic을 사용했습니다.
 
-![전체 System Architecture](docs/images/system-architecture.png)
+![전체 3. System Architecture](docs/images/system-architecture.png)
 
 <a id="safety-design"></a>
 
-## Safety Design
+## 4. Safety Design
 
 ### Safe demonstration만 저장
 
@@ -162,7 +162,7 @@ MuJoCo의 built-in contact 정보 전체를 haptic feedback에 연결했을 때,
 
 <a id="dataset"></a>
 
-## Dataset
+## 5. Dataset
 
 Trajectory는 task별로 `instruction`과 `correction` directory를 분리해 저장합니다.
 
@@ -185,7 +185,7 @@ data/
 - `.json`: task, instruction, episode type, frame 수, control frequency 등의 metadata
 - `.npz`: joint state, end-effector pose, 6-DoF action, latent `z`, active utterance, correction stack, contact 등의 frame data
 
-### 현재 수집 데이터
+### 6. 현재 수집 데이터
 
 | Task / Type                            | Utterance                                                    | Episodes |     Frames |
 | -------------------------------------- | ------------------------------------------------------------ | -------: | ---------: |
