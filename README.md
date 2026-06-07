@@ -4,9 +4,21 @@ Language-Informed Latent Actions with Corrections를 활용해 **2-DoF joystick 
 
 일반적인 joystick teleoperation은 제한된 input DoF로 인해 position과 orientation을 번갈아 조작해야 합니다. 잦은 mode switching은 사용자의 cognitive load를 높이고, 조작 정확도를 떨어뜨리며, 의도하지 않은 robot motion으로 이어질 수 있습니다. 본 프로젝트는 robot state와 language instruction/correction을 이용해 joystick input의 의미를 상황에 맞게 바꾸는 **Shared Autonomy controller**를 구현합니다.
 
+## Table of Contents
+
+- [핵심 아이디어](#core-idea)
+- [Language 처리와 Structured Command Selection](#language-processing)
+- [System Architecture](#system-architecture)
+- [Safety Design](#safety-design)
+- [Dataset](#dataset)
+- [Troubleshooting](#troubleshooting)
+- [Repository Structure](#repository-structure)
+
 ![기존 assistive robot control의 한계](docs/images/motivation-control-limitations.png)
 
 ![MuJoCo simulation과 joystick 조작](docs/images/simulation-demo.png)
+
+<a id="core-idea"></a>
 
 ## 핵심 아이디어
 
@@ -56,6 +68,8 @@ a' = B(s, u, alpha) @ z
 
 `alpha=1`인 instruction은 current state context를 적극적으로 사용하고, `alpha=0`인 correction은 state 의존성을 줄여 `right`, `up`, `pour water`와 같은 즉각적인 수정 의도를 우선합니다.
 
+<a id="language-processing"></a>
+
 ## Language 처리와 Structured Command Selection
 
 사람은 같은 의도를 서로 다르게 표현합니다. 예를 들어 위쪽 이동을 요청할 때 `"위로 올려"`, `"조금만 위로 이동해"`처럼 표현이 달라질 수 있습니다. Gemini는 이러한 다양한 표현을 해석해 robot이 수행할 수 있는 canonical command로 연결합니다.
@@ -86,6 +100,8 @@ Gemini prompt에는 canonical `id`, `text`, `kind`, `aliases` 목록과 raw utte
 | correction  | `right`, `left`, `up`, `down`, `front`, `back`, `pour water` |
 
 선택된 instruction/correction은 LILAC Policy에 전달됩니다. Policy는 current state `s`, utterance `u`, joystick latent `z`를 이용해 6-DoF end-effector action을 생성하고, IK가 이를 right-arm joint command로 변환합니다.
+
+<a id="system-architecture"></a>
 
 ## System Architecture
 
@@ -122,6 +138,8 @@ flowchart LR
 
 ![전체 System Architecture](docs/images/system-architecture.png)
 
+<a id="safety-design"></a>
+
 ## Safety Design
 
 ### Safe demonstration만 저장
@@ -141,6 +159,8 @@ MuJoCo의 built-in contact 정보 전체를 haptic feedback에 연결했을 때,
 이를 해결하기 위해 contact pair의 body name을 검사하고, `base_link`, `arm_*`, `finger_*` 등 **robot asset이 포함된 contact만 filtering**했습니다. 따라서 cup이 바닥에 닿는 경우에는 진동하지 않고, robot arm이 table 또는 주변 물체와 충돌할 때만 haptic feedback이 발생합니다.
 
 ![Robot contact 기반 Haptic Feedback](docs/images/haptic-feedback.png)
+
+<a id="dataset"></a>
 
 ## Dataset
 
@@ -176,6 +196,8 @@ data/
 
 Consecutive frame pair로 action을 구성한 최종 training array에는 **17,930 samples**가 포함되어 있습니다.
 
+<a id="troubleshooting"></a>
+
 ## Troubleshooting
 
 ### 1. Translation은 충분하지만 pouring rotation이 약한 문제
@@ -195,6 +217,8 @@ Exact Match를 우선하고, novel utterance만 Gemini로 전달했습니다. Ge
 ### 4. 공용 network에서 ROS message가 섞이는 문제
 
 30명이 동일한 network를 사용하는 수업 환경에서는 ROS 2 environment variable인 `ROS_LOCALHOST_ONLY=1`을 적용했습니다. ROS 2 communication을 각 computer의 localhost로 제한해 다른 팀의 ROS topic이 발견되거나 섞이지 않도록 했습니다.
+
+<a id="repository-structure"></a>
 
 ## Repository Structure
 
