@@ -10,6 +10,9 @@ cache/
 # Generated training/runtime artifacts
 runs/
 outputs/
+ros_ws/build/
+ros_ws/install/
+ros_ws/log/
 
 # Large ML checkpoint/model formats
 *.bin
