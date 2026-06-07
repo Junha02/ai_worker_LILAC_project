@@ -1,0 +1,11 @@
+string text
+string command
+---
+bool success
+string event
+string canonical_id
+string canonical_text
+string kind
+string active_text
+string message
+string stack_json
