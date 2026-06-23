@@ -1,8 +1,0 @@
-# Runtime language commands for LILAC inference.
-# Recommended terminal input:
-#   /opt/anaconda3/envs/ri_motion_v5_env/bin/python project/LILAC_project/scripts/runtime_language_cli.py
-# Type any utterance as plain text. Exact canonical matches bypass Gemini.
-# Novel text is canonicalized by Gemini, then kind decides instruction vs correction.
-# Explicit commands also work: utterance <text>, instruction <text>, push <text>, pop, clear.
-
-utterance cup to bowl

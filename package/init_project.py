@@ -26,9 +26,4 @@ from real_zed import *
 from sh5_right_arm import *
 from training import *
 
-from messages import *
-from nodes import *
-from ros_graph import *
-from runtime import *
-
-print("\n[LILAC_ROS] initialized.")
+print("\n[LILAC_project] initialized.")

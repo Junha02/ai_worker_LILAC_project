@@ -1,23 +1,29 @@
-# OS/editor noise
 .DS_Store
+
+# Local environment and secrets.
+.env
+.env.*
+!.env.example
+
+# Python cache and local tooling state.
 __pycache__/
 *.py[cod]
+*$py.class
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .ipynb_checkpoints/
 
-# Downloaded model caches
+# Virtual environments.
+.venv/
+venv/
+env/
+
+# Local caches and generated artifacts.
 cache/
-
-# Generated training/runtime artifacts
-runs/
 outputs/
-ros_ws/build/
-ros_ws/install/
-ros_ws/log/
+runs/
+data/face_debug/
+data/runtime_language_command.txt
 
-# Large ML checkpoint/model formats
-*.bin
-*.ckpt
-*.onnx
-*.pt
-*.pth
-*.safetensors

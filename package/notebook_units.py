@@ -98,7 +98,7 @@ def write_runtime_language_command_header(command_path=RUNTIME_LANGUAGE_COMMAND)
     command_path.write_text(
         "# Runtime language commands for LILAC inference.\n"
         "# Recommended terminal input:\n"
-        "#   /opt/anaconda3/envs/ri_motion_v5_env/bin/python project/LILAC_ROS/scripts/runtime_language_cli.py\n"
+        "#   /opt/anaconda3/envs/ri_motion_v5_env/bin/python project/LILAC_project/scripts/runtime_language_cli.py\n"
         "# Type any utterance as plain text. Exact canonical matches bypass Gemini.\n"
         "# Novel text is canonicalized by Gemini, then kind decides instruction vs correction.\n"
         "# Explicit commands also work: utterance <text>, instruction <text>, push <text>, pop, clear.\n"

@@ -26,7 +26,4 @@ TRAINING_ARRAYS = TRAINING_DIR / "lilac_sh5_right_arrays.npz"
 RUN_DIR = RUNS_DIR / "lilac_sh5_right"
 RUNTIME_LANGUAGE_COMMAND = DATA_DIR / "runtime_language_command.txt"
 
-LILAC_RUN_DIR = RUN_DIR
-RUNTIME_UTTERANCE_FILE = RUNTIME_LANGUAGE_COMMAND
-
 SCENE_XML = str(PROJECT_DIR / "notebook" / "xml" / "scene_ffw_sh5_lilac.xml")
